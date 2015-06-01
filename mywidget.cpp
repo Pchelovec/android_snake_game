@@ -5,7 +5,7 @@ MyWidget::MyWidget()
     table->set_size(this->height(),this->width());
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this, SLOT(repaint()));
-    timer->start(1000/2);//25 cadrs per second
+    timer->start(1000/25);//25 cadrs per second
 }
 
 void MyWidget::paintEvent(QPaintEvent *event)
@@ -13,7 +13,6 @@ void MyWidget::paintEvent(QPaintEvent *event)
     //create a QPainter and pass a pointer to the device.
     //A paint device can be a QWidget, a QPixmap or a QImage
     QPainter painter(this);
-
     table->game_paint(painter);//paint current screen
 }
 void MyWidget::mousePressEvent ( QMouseEvent * event )
@@ -37,7 +36,7 @@ void MyWidget::mouseReleaseEvent ( QMouseEvent * event )
 }
 void MyWidget::resizeEvent(QResizeEvent *event)
 {
-        table->set_size(this->height(),this->width());
-        qDebug()<<"window size_change to"<<this->height()<<this->width()<<endl;
-        emit repaint();
+    table->set_size(this->height(),this->width());
+    qDebug()<<"window size_change to"<<this->height()<<this->width()<<endl;
+    emit repaint();
 }

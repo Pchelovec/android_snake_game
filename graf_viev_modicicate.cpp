@@ -3,13 +3,15 @@
 #include <QDebug>
 int graf_viev_modicicate::w=0;
 int graf_viev_modicicate::h=0;
+int graf_viev_modicicate::hard=1;
 graf_viev_modicicate::graf_viev_modicicate()
 {
     sn=new snake();
     buf_mouse=new QPoint;
     map=new my_map();
     map->on_size_change();
-    current_player_level=1;
+    sn->start_move();
+//    connect(this->sn,SIGNAL(level_up(void )),this->map,SLOT(on_level_up(void )));
 }
 
 graf_viev_modicicate::~graf_viev_modicicate()
@@ -32,32 +34,17 @@ void graf_viev_modicicate::game_paint(QPainter & painter)
 
     sn->paint_snake(&painter,map->box_h(),map->box_w());
 
-//    painter.setRenderHint(QPainter::Antialiasing, true);
-//    painter.setPen(QPen(Qt::black, 12, Qt::DashDotLine, Qt::RoundCap));
-//    painter.setBrush(QBrush(Qt::green, Qt::SolidPattern));
+    sn->paint_froit(&painter,map->box_h(),map->box_w());
 
-    //painter.drawEllipse(80, 80, 400, 240);
-//    QVector <QPoint> *arr_sh=new QVector <QPoint>;
-//    arr_sh=sn->snake_koord();
-
-////    painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
-
-//    qDebug()<<"shake painted"<<arr_sh->size()<<endl;
-//    for (int i=0;i<arr_sh->size();i++)
-//    {
-////        QPoint temp;
-////        temp.setX(arr_sh[i].at(i).x());
-////        temp.setY(arr_sh[i].at(i).y());
-////        qDebug()<<temp;
-//        painter.drawEllipse(arr_sh[i].at(i).x(),arr_sh[i].at(i).y(),arr_sh[i].at(i).x()+map->box_h(),arr_sh[i].at(i).y()+map->box_w());
-//    }
+    bool complete=sn->complete_level();
+    if (complete)
+    {
+        map->on_level_up();
+        sn->new_fruit();
+        sn->start_pos();
+    }
 }
 
-void graf_viev_modicicate::const_pole_initial()
-{
-    //load from my_map
-
-}
 void graf_viev_modicicate::set_mouse_press(QPoint * pole)
 {
     buf_mouse->setX(pole->x());
@@ -76,4 +63,22 @@ QPoint graf_viev_modicicate::size_screen()
     result.setX(graf_viev_modicicate::w);
     result.setY(graf_viev_modicicate::h);
     return result;
+}
+void graf_viev_modicicate::up_hard()
+{
+    hard+=1;
+}
+
+void graf_viev_modicicate::hard_zero()
+{
+    hard=1;
+}
+
+int graf_viev_modicicate::get_hard()
+{
+    return hard;
+}
+void graf_viev_modicicate::on_new_level(void)
+{
+    hard=1;
 }
