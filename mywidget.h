@@ -3,7 +3,7 @@
 #include <QtGui>
 #include <QWidget>
 #include <QTimer>
-#include "graf_viev_modicicate.h"
+#include "game.h"
 
 class MyWidget : public QWidget
 {
@@ -13,7 +13,7 @@ public:
 
 protected:
     QTimer *timer;
-    graf_viev_modicicate * table;
+    game * table;
     void paintEvent(QPaintEvent *event);
     void mousePressEvent ( QMouseEvent * event );
     void mouseReleaseEvent ( QMouseEvent * event );

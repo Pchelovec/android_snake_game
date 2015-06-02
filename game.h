@@ -2,7 +2,8 @@
 #define GRAF_VIEV_MODICICATE_H
 #include "snake.h"
 #include "my_map.h"
-class graf_viev_modicicate
+#include "view.h"
+class game
 {
 private:
     static int h,w;
@@ -10,9 +11,10 @@ private:
     QPoint *buf_mouse;
     my_map * map;
     static int hard;
+    view *v;
 public:
-    graf_viev_modicicate();
-    ~graf_viev_modicicate();
+    game();
+    ~game();
     void game_paint(QPainter &);
     void shake_print();
     void set_size(int head, int weigth);

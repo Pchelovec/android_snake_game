@@ -7,37 +7,44 @@
 #include <QObject>
 #include <QVector>
 #include <QPoint>
-#include <QPainter>
 #include <QTimer>
+#include <QPainter>
 class snake : public QObject
 {Q_OBJECT
 private :
-    int length;
+    bool change_move;//for 1 litte bug
+
     int move_to;//left,right...
     QVector <QPoint> sh;//shake pos
     QPoint fruit;//random fruit pos
     QTimer *timer;
     bool is_snake_pos(int x,int y);
     bool is_froit_eated();
+
+    void eat_myself();
 public:
+
     explicit snake(QObject *parent = 0);
-    void new_move_to(QPoint *);
-    void paint_snake(QPainter * paint, int ,int);
-    bool is_correct_head_pos();
-    QVector <QPoint> * snake_koord();
     void start_move();
-    void paint_froit(QPainter * paint,int x,int y);
-    QPoint head_pos();
+    ~snake();
+    void new_move_to(QPoint *);
+    void start_pos();
+
     bool complete_level();
     void new_fruit();
-    void start_pos();
-    ~snake();
+
+    int get_fruit_x(){return fruit.x();}
+    int get_fruit_y(){return fruit.y();}
+
+    int size_snake();
+    QPoint *get_sh(int i);
+void paint_snake(QPainter * paint, int x,int y);
 
 signals:
     void level_up();
 
 public slots:
-    void on_snake_move(void );
+    void on_snake_move();
 };
 
 #endif // SNAKE_H

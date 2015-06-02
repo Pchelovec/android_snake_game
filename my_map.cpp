@@ -1,6 +1,6 @@
 #include "my_map.h"
 #include <QGraphicsPixmapItem>
-#include "graf_viev_modicicate.h"
+#include "game.h"
 #include <QDebug>
 int my_map::w_box=0;
 int my_map::h_box=0;
@@ -10,16 +10,18 @@ int my_map::count_box_w=0;
 int my_map::count_box_h=0;
 int my_map::leng_for_complete_level=0;
 int my_map::current_player_level=1;
+QVector <QPoint> * my_map::map_hindrance;
 my_map::my_map()
 {
-    pix_map = new QPixmap(graf_viev_modicicate::size_screen().x(),graf_viev_modicicate::size_screen().y());
-    paint = new QPainter(pix_map);
+//    pix_map = new QPixmap(game::size_screen().x(),game::size_screen().y());
+//    paint = new QPainter(pix_map);
     current_player_level=1;
+    map_hindrance=new QVector <QPoint>;
 }
 void my_map::count_initial_size()
 {
     QPoint temp;
-    temp=graf_viev_modicicate::size_screen();
+    temp=game::size_screen();
 
     h_box=(temp.x())/count_box_h;
     qDebug()<<"("<<temp.x()<<")/"<<count_box_h<<endl;
@@ -32,46 +34,69 @@ void my_map::count_initial_size()
 }
 my_map::~my_map()
 {
-
 }
 
-void my_map::level1()
+void my_map::level1(view * v)
 {
-    graf_viev_modicicate::hard_zero();
     leng_for_complete_level=5;
-    count_box_h=15;//for current level
-    count_box_w=20;
+    count_box_h=8;//for current level
+    count_box_w=10;
     count_initial_size();
-    paint->setPen(*(new QColor(255,34,255,255)));
+    //paint->setPen(*(new QColor(255,34,255,255)));
 
-    for (int i=0;i<count_box_h+1;i++)
-        for (int j=0;j<count_box_w+1;j++)
+    for (int i=0;i<=count_box_h;i++)
+        for (int j=0;j<=count_box_w;j++)
         {
             if ((i==count_box_h) || (j==count_box_w))
-                paint->setBrush(QBrush(Qt::black, Qt::SolidPattern));
+                //paint->setBrush(QBrush(Qt::black, Qt::SolidPattern));
+                v->rect(QBrush(Qt::black, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
             else
-                    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
-                paint->drawRect(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                v->rect(QBrush(Qt::yellow, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                //    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
+                //paint->drawRect(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);//paint elemet
         }
 }
-void my_map::level2()
+void my_map::level2(view * v)
 {
-    graf_viev_modicicate::hard_zero();
+
     leng_for_complete_level=6;
     count_box_h=15;//for current level
     count_box_w=15;
     count_initial_size();
-    paint->setPen(*(new QColor(255,34,255,255)));
+    //paint->setPen(*(new QColor(255,34,255,255)));
 
     for (int i=0;i<count_box_h+1;i++)
         for (int j=0;j<count_box_w+1;j++)
         {
             if ((i==count_box_h) || (j==count_box_w))
-                paint->setBrush(QBrush(Qt::black, Qt::SolidPattern));
+                //paint->setBrush(QBrush(Qt::black, Qt::SolidPattern));
+                v->rect(QBrush(Qt::black, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
             else
-                    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
-                paint->drawRect(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                v->rect(QBrush(Qt::yellow, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                //    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
+                //paint->drawRect(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
         }
+    for (int i=0;i<5;i++)
+    {
+        v->rect(QBrush(Qt::red, Qt::SolidPattern),
+                *(new QColor(255,34,255,255)),
+                pix_dop_x/2+(i)*h_box,
+                pix_dop_y/2+7*w_box,
+                h_box,
+                w_box);//припятствие
+        QPoint temp;
+        temp.setX(i);
+        temp.setY(7);
+        map_hindrance->push_back(temp);
+        v->rect(QBrush(Qt::red, Qt::SolidPattern),
+                *(new QColor(255,34,255,255)),
+                pix_dop_x/2+(10+i)*h_box,
+                pix_dop_y/2+7*w_box,
+                h_box,
+                w_box);//припятствие
+        temp.setX(10+i);
+        map_hindrance->push_back(temp);
+    }
 }
 int my_map::box_w()
 {
@@ -82,21 +107,16 @@ int my_map::box_h()
 {
     return h_box;
 }
-void my_map::set_count_box(QPoint * screen_size)
-{
 
-}
-QPixmap* my_map::map()
+QPixmap* my_map::map(view *v)
 {
-    return pix_map;
+    return v->get_pix_map();
 }
-void my_map::on_size_change()
+void my_map::on_size_change(view * v)
 {
-    delete pix_map,paint;
-    pix_map = new QPixmap(graf_viev_modicicate::size_screen().x(),graf_viev_modicicate::size_screen().y());
-    paint = new QPainter(pix_map);
+    emit v->on_size_change();
     //level1();
-    write_current_level();
+    write_current_level(v);
 }
 int my_map::x_extra()
 {
@@ -119,25 +139,26 @@ int my_map::get_comlete_snake_leng()
 {
     return leng_for_complete_level;
 }
-void my_map::on_level_up()
+void my_map::on_level_up(view * v)
 {
+    //game::hard_zero();
     current_player_level++;
-    write_current_level();
+    write_current_level(v);
 }
-void my_map::write_current_level()
+void my_map::write_current_level(view * v)
 {
-    graf_viev_modicicate::hard_zero();
+    map_hindrance->clear();
     if (current_player_level<=total_level_count)
     {
         switch (current_player_level) {
         case 1:
         {
-            level1();
+            level1(v);
             break;
         }
         case 2:
         {
-            level2();
+            level2(v);
             break;
         }
         }
@@ -151,4 +172,14 @@ void my_map::write_current_level()
 int my_map::get_current_level()
 {
     return current_player_level;
+}
+bool my_map::is_interference(int x,int y)
+{
+    bool result;
+    for (int i=0;i<map_hindrance->size();i++)
+    {
+        if ((map_hindrance->at(i).x()==x)&&(map_hindrance->at(i).y()==y)) return true;
+    }
+    if (x>=count_box_h || y>=count_box_w || x<0 || y<0) return true;
+    else return false;
 }

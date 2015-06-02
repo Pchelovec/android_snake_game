@@ -1,7 +1,7 @@
 #include "mywidget.h"
 MyWidget::MyWidget()
 {
-    table=new graf_viev_modicicate();
+    table=new game();
     table->set_size(this->height(),this->width());
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this, SLOT(repaint()));
