@@ -10,6 +10,7 @@ snake::snake(QObject *parent) : QObject(parent)
     start_pos();
     qDebug()<<"snake is ready"<<sh.size()<<endl;
     change_move=true;
+    Snake.convertFromImage(QImage(":/res/Snake_.png"));
 }
 
 snake::~snake()
@@ -127,7 +128,7 @@ void snake::new_fruit()
         x=qrand()% (my_map::get_count_box_h());
         y=qrand()% (my_map::get_count_box_w());
     }
-    while (is_snake_pos(x,y) && (my_map::is_interference(x,y)));
+    while (is_snake_pos(x,y) || (my_map::is_interference(x,y)));
     //qDebug()<<"FROIT POS="<<x<<" "<<y;
     fruit.setX(x);
     fruit.setY(y);
@@ -209,16 +210,25 @@ void snake::eat_myself()
         }
     }
 }
-void snake::paint_snake(QPainter * paint, int x,int y)
+void snake::paint_snake(QPainter * paint, int x,int y,int x2,int y2)
 {
-    paint->setPen(*(new QColor(255,0,0,255)));
-    //qDebug()<<"snake painted"<<endl;
+//    paint->setPen(*(new QColor(255,0,0,255)));
+//    //qDebug()<<"snake painted"<<endl;
+//    for (int i=0;i<sh.size();i++)
+//    {
+//        //qDebug()<<sh[i]<<"\t x="<<x<<"y="<<y<<"\t"<<sh[i].x()*x<<" "<<sh[i].y()*y<<" "<<sh[i].x()+x<<" "<<sh[i].y()+y;
+//        paint->setPen(QPen(Qt::black, 1, Qt::DashDotLine, Qt::RoundCap));
+//        paint->setBrush(QBrush(Qt::green, Qt::Dense5Pattern));
+//        paint->drawEllipse((sh[i].x()*x+ my_map::x_extra()/2),(sh[i].y()*y+my_map::y_extra()/2),(x2),(y2));
+//        //paint->drawRect((sh[i].x()*x),(sh[i].y()*y),(sh[i].x()*x+x),(sh[i].y()*y+y));
+//    }
+
+    qDebug()<<"snake good painted"<<endl;
+    paint->setPen(QPen(Qt::black, 1, Qt::DashDotLine, Qt::RoundCap));
+    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
     for (int i=0;i<sh.size();i++)
     {
-        //qDebug()<<sh[i]<<"\t x="<<x<<"y="<<y<<"\t"<<sh[i].x()*x<<" "<<sh[i].y()*y<<" "<<sh[i].x()+x<<" "<<sh[i].y()+y;
-        paint->setPen(QPen(Qt::black, 1, Qt::DashDotLine, Qt::RoundCap));
-        paint->setBrush(QBrush(Qt::green, Qt::Dense5Pattern));
-        paint->drawEllipse((sh[i].x()*x+ my_map::x_extra()/2),(sh[i].y()*y+my_map::y_extra()/2),(x),(y));
-        //paint->drawRect((sh[i].x()*x),(sh[i].y()*y),(sh[i].x()*x+x),(sh[i].y()*y+y));
+        paint->drawEllipse(sh.at(i).x()*x+ my_map::x_extra()/2,sh.at(i).y()*y+ my_map::y_extra()/2,x,y);
+        paint->drawPixmap(sh.at(i).x()*x+ my_map::x_extra()/2,sh.at(i).y()*y+ my_map::y_extra()/2,x,y,Snake);
     }
 }

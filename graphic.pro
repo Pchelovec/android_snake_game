@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = grafic
+TARGET = graphic
 TEMPLATE = app
 
 
@@ -33,7 +33,7 @@ FORMS    +=
 
 RESOURCES += \
     res.qrc
-RC_ICONS=snake(ico).ico
+RC_ICONS=res\snake(ico).ico
 
 DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.jar \

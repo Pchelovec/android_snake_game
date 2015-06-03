@@ -49,9 +49,9 @@ void my_map::level1(view * v)
         {
             if ((i==count_box_h) || (j==count_box_w))
                 //paint->setBrush(QBrush(Qt::black, Qt::SolidPattern));
-                v->rect(QBrush(Qt::black, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                v->map_good(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,h_box,w_box);
             else
-                v->rect(QBrush(Qt::yellow, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                v->map_good(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,h_box,w_box);
                 //    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
                 //paint->drawRect(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);//paint elemet
         }
@@ -70,16 +70,15 @@ void my_map::level2(view * v)
         {
             if ((i==count_box_h) || (j==count_box_w))
                 //paint->setBrush(QBrush(Qt::black, Qt::SolidPattern));
-                v->rect(QBrush(Qt::black, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                v->map_good(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,h_box,w_box);
             else
-                v->rect(QBrush(Qt::yellow, Qt::SolidPattern),*(new QColor(255,34,255,255)),pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
+                v->map_good(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,h_box,w_box);
                 //    paint->setBrush(QBrush(Qt::yellow, Qt::SolidPattern));
                 //paint->drawRect(pix_dop_x/2+i*h_box,pix_dop_y/2+j*w_box,pix_dop_x+(i+1)*h_box,pix_dop_y+(j+1)*w_box);
         }
     for (int i=0;i<5;i++)
     {
-        v->rect(QBrush(Qt::red, Qt::SolidPattern),
-                *(new QColor(255,34,255,255)),
+        v->rect_box(//box
                 pix_dop_x/2+(i)*h_box,
                 pix_dop_y/2+7*w_box,
                 h_box,
@@ -88,8 +87,8 @@ void my_map::level2(view * v)
         temp.setX(i);
         temp.setY(7);
         map_hindrance->push_back(temp);
-        v->rect(QBrush(Qt::red, Qt::SolidPattern),
-                *(new QColor(255,34,255,255)),
+
+        v->rect_box(//box
                 pix_dop_x/2+(10+i)*h_box,
                 pix_dop_y/2+7*w_box,
                 h_box,

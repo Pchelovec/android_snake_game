@@ -12,8 +12,10 @@
 class snake : public QObject
 {Q_OBJECT
 private :
-    bool change_move;//for 1 litte bug
+    QPixmap gress;//
 
+    bool change_move;//for 1 litte bug
+    QPixmap Snake;
     int move_to;//left,right...
     QVector <QPoint> sh;//shake pos
     QPoint fruit;//random fruit pos
@@ -38,7 +40,7 @@ public:
 
     int size_snake();
     QPoint *get_sh(int i);
-void paint_snake(QPainter * paint, int x,int y);
+void paint_snake(QPainter * paint, int x, int y, int x2, int y2);
 
 signals:
     void level_up();

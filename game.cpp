@@ -30,21 +30,6 @@ void game::set_size(int head, int weigth)
 
 void game::game_paint(QPainter & painter)
 {
-    painter.drawPixmap(0,0,game::w,game::h,(*map->map(v)));//const background
-
-    sn->paint_snake(&painter,map->box_h(),map->box_w());//android and desctope
-    //v->paint_snake(sn,&painter,map->box_h(),map->box_w());//problem with android
-
-    //sn->paint_froit(&painter,map->box_h(),map->box_w());
-
-    v->elipse(&painter,//fruit painting
-              (QBrush(Qt::red, Qt::Dense2Pattern)),
-              (QColor(255,0,0,255)),
-              (sn->get_fruit_x() * my_map::box_h()+ my_map::x_extra()/2),
-              (sn->get_fruit_y() * my_map::box_w()+my_map::y_extra()/2),
-              my_map::box_h(),
-              my_map::box_w());
-
     bool complete=sn->complete_level();
     if (complete)
     {
@@ -52,6 +37,39 @@ void game::game_paint(QPainter & painter)
         sn->new_fruit();
         sn->start_pos();
     }
+
+    painter.drawPixmap(0,0,game::w,game::h,(*map->map(v)));//const background
+
+    v->paint_good_apple(&painter,//fruit
+             sn->get_fruit_x() * my_map::box_h()+ my_map::x_extra()/2,
+            (sn->get_fruit_y() * my_map::box_w()+ my_map::y_extra()/2),
+            my_map::box_h(),
+            my_map::box_w());
+
+    sn->paint_snake(&painter,
+                    map->box_h(),
+                    map->box_w(),
+                    my_map::box_h(),
+                    my_map::box_w());//android and desctope
+    //v->paint_good_snake(sn,&painter,sn->get_fruit_x() * my_map::box_h()+ my_map::x_extra()/2,
+//                        (sn->get_fruit_y() * my_map::box_w()+my_map::y_extra()/2),
+//                        my_map::box_h(),
+//                        my_map::box_w());
+    //v->paint_snake(sn,&painter,map->box_h(),map->box_w());//problem with android
+
+    //sn->paint_froit(&painter,map->box_h(),map->box_w());
+
+//    v->elipse(&painter,//fruit painting
+//              (QBrush(Qt::red, Qt::Dense2Pattern)),
+//              (QColor(255,0,0,255)),
+//              (sn->get_fruit_x() * my_map::box_h()+ my_map::x_extra()/2),
+//              (sn->get_fruit_y() * my_map::box_w()+my_map::y_extra()/2),
+//              my_map::box_h(),
+//              my_map::box_w());
+
+
+
+
 }
 
 void game::set_mouse_press(QPoint * pole)
